@@ -1,4 +1,4 @@
-def minimum_button_presses(s)
+def calculate_minimal_presses(s)
     press_count = 0
     i = 0
     n = s.length
@@ -17,7 +17,7 @@ press_count
 end
 
 # Input
+s = gets.chomp # 標準入力で文字列を取得し，制御文字を削除して，sに代入
 
-
-# Output the result
-puts minimum_button_presses(s)
+# Output
+puts calculate_minimal_presses(s)
