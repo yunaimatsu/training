@@ -1,1 +1,3 @@
-# training
+## training
+* Ruby
+* JavaScript
