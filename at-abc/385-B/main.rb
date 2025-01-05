@@ -1,31 +1,37 @@
-$passed_houses_number = 0
-def make_table(h, w)
-    house_table = Array.new(h)
-    while (section_status = gets.chomp)
-        house_table.push(section_status)
-    end
+require 'set'
+
+# 入力を受け取る
+h, w, x, y = gets.split.map(&:to_i)
+x -= 1 # 配列のインデックスに合わせるため -1
+y -= 1 # 配列のインデックスに合わせるため -1
+
+# マップを受け取る
+houses_table = Array.new(h) { gets.chomp }
+# 移動指示を受け取る
+t = gets.chomp
+
+# サンタクロースが最初にいる位置
+santa_x, santa_y = x, y
+
+# 通過した家を記録するセット
+visited_houses = Set.new
+
+# 移動をシミュレート
+t.each_char do |move|
+  # 現在の位置からの移動候補
+  if move == 'U' && santa_x > 0 && (houses_table[santa_x - 1][santa_y] == '.' || houses_table[santa_x - 1][santa_y] == '@')
+    santa_x -= 1
+  elsif move == 'D' && santa_x < h - 1 && (houses_table[santa_x + 1][santa_y] == '.' || houses_table[santa_x + 1][santa_y] == '@')
+    santa_x += 1
+  elsif move == 'L' && santa_y > 0 && (houses_table[santa_x][santa_y - 1] == '.' || houses_table[santa_x][santa_y - 1] == '@')
+    santa_y -= 1
+  elsif move == 'R' && santa_y < w - 1 && (houses_table[santa_x][santa_y + 1] == '.' || houses_table[santa_x][santa_y + 1] == '@')
+    santa_y += 1
+  end
+
+  # 通過した家を記録
+  visited_houses.add([santa_x, santa_y]) if houses_table[santa_x][santa_y] == '@'
 end
 
-def decide_destination(x, y, t)
-    i=0
-    santa_x = x - 1
-    santa_y = y - 1
-    while i < t.length
-    if t[i] = "u" && santa_y - 1 = "." || "&&" # どうやって移動先の座標を指定するの？
-    if t[i] = "d" && santa_y + 1 = "." || "&&"
-    if t[i] = "l" && santa_x - 1 = "." || "&&"
-    if t[i] = "r" && santa_x + 1 = "." || "&&"
-    i += 1
-    end
-    end
-    end
-
-    if t[i] = "l" &&
-    t[i] == "r" &&
-    return santa_x, santa_y, passed_houses_number
-end
-
-# 入力
-gets.chomp
-
-puts "#{santa_x} #{santa_y} #{passed_houses_number}"
+# 出力
+puts "#{santa_x + 1} #{santa_y + 1} #{visited_houses.size}"
